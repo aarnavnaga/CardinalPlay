@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cardinal: #8C1515;
+  --color-cardinal-dark: #6B0F0F;
+  --color-cardinal-light: #B83A3A;
+  --color-gold: #B08D57;
+  --color-gold-light: #D4AF37;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #0A0A0A;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+#root {
+  width: 100%;
+  max-width: 430px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar { display: none; }
+
+input, textarea, select {
+  font-family: inherit;
+  -webkit-appearance: none;
+}
+
+/* ─── Shared utility classes ────────────────────── */
+.cardinal-gradient {
+  background: linear-gradient(135deg, #8C1515 0%, #B83A3A 50%, #8C1515 100%);
+}
+
+.cardinal-glow {
+  box-shadow: 0 0 28px rgba(140,21,21,0.45), 0 0 60px rgba(140,21,21,0.15);
+}
+
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.gold-text {
+  background: linear-gradient(135deg, #D4AF37, #B08D57, #D4AF37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ─── Page layout primitives ────────────────────── */
+
+/* Scrollable page */
+.page {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Inner wrapper — 64px top (status bar room), 20px sides, 88px bottom (nav + breathing room) */
+.page-inner {
+  padding: 64px 20px 88px;
+}
+
+/* Non-scrolling page (flex column) */
+.page-fixed {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
