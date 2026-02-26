@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import StanfordTreeChibi from '../components/StanfordTreeChibi';
 
 export default function SplashScreen({ onComplete }) {
   const [phase, setPhase] = useState(0);
@@ -77,6 +78,9 @@ export default function SplashScreen({ onComplete }) {
                 animate={{ width: 200 }}
                 transition={{ delay: 0.9, duration: 0.8 }}
               />
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>
+                <StanfordTreeChibi size={40} />
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
@@ -90,16 +94,8 @@ export default function SplashScreen({ onComplete }) {
             exit={{ opacity: 0, y: -40, filter: 'blur(8px)' }}
             transition={{ duration: 0.6 }}
           >
-            <motion.div
-              className="w-20 h-20 rounded-full mb-6 flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(135deg, #D4AF37 0%, #B08D57 50%, #D4AF37 100%)',
-                boxShadow: '0 0 40px rgba(212,175,55,0.4)',
-              }}
-              animate={{ rotateY: [0, 360] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            >
-              <span className="text-3xl font-black text-[#6B0F0F]">C</span>
+            <motion.div className="mb-6" animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }}>
+              <StanfordTreeChibi size={72} />
             </motion.div>
 
             <motion.h2

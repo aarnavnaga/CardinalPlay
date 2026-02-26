@@ -5,7 +5,7 @@ const AppContext = createContext();
 const MOCK_USER = {
   id: 'usr_001',
   name: 'Aarnav',
-  fullName: 'Aarnav Naga',
+  fullName: 'Aarnav Nagabhirava',
   email: 'aarnav@stanford.edu',
   year: 'Sophomore',
   section: 'Section 104',
@@ -17,26 +17,30 @@ const MOCK_USER = {
   checkedIn: true,
 };
 
+// x,y are % in seating areas only (not on field): left 18–26%, right 74–82%, top 14–22%, bottom 78–86%
 const MOCK_FRIENDS = [
-  { id: 'f1', name: 'Jordan Lee', section: 'Section 104', row: 12, seat: 8, x: 42, y: 35, online: true, avatarColor: '#B83A3A' },
-  { id: 'f2', name: 'Priya Sharma', section: 'Section 106', row: 5, seat: 15, x: 65, y: 52, online: true, avatarColor: '#D4AF37' },
-  { id: 'f3', name: 'Marcus Chen', section: 'Section 102', row: 20, seat: 3, x: 28, y: 68, online: true, avatarColor: '#6B0F0F' },
-  { id: 'f4', name: 'Sofia Rodriguez', section: 'Section 108', row: 8, seat: 22, x: 78, y: 28, online: false, avatarColor: '#B08D57' },
-  { id: 'f5', name: 'Tyler Brooks', section: 'Section 104', row: 14, seat: 5, x: 38, y: 40, online: true, avatarColor: '#E54545' },
-  { id: 'f6', name: 'Emma Wilson', section: 'Section 110', row: 3, seat: 18, x: 85, y: 45, online: true, avatarColor: '#8C1515' },
+  { id: 'f1', name: 'Karis Chen', section: 'Section 104', row: 12, seat: 8, x: 22, y: 18, online: true, avatarColor: '#B83A3A' },
+  { id: 'f2', name: 'Mahi Jariwala', section: 'Section 106', row: 5, seat: 15, x: 78, y: 18, online: true, avatarColor: '#D4AF37' },
+  { id: 'f3', name: 'Jordan Huang', section: 'Section 102', row: 20, seat: 3, x: 22, y: 82, online: true, avatarColor: '#6B0F0F' },
+  { id: 'f4', name: 'Zayd Patel', section: 'Section 108', row: 8, seat: 22, x: 78, y: 82, online: false, avatarColor: '#B08D57' },
+  { id: 'f5', name: 'Caroline Driscoll', section: 'Section 104', row: 14, seat: 5, x: 22, y: 50, online: true, avatarColor: '#E54545' },
+  { id: 'f6', name: 'Sonia Dholakia', section: 'Section 110', row: 3, seat: 18, x: 78, y: 50, online: true, avatarColor: '#8C1515' },
+  { id: 'f7', name: 'Aakrisht Mehra', section: 'Section 104', row: 6, seat: 12, x: 50, y: 14, online: true, avatarColor: '#9C27B0' },
+  { id: 'f8', name: 'Sam Fisher', section: 'Section 112', row: 18, seat: 7, x: 50, y: 86, online: true, avatarColor: '#1976D2' },
+  { id: 'f9', name: 'Andrew Luck', section: 'Section 106', row: 10, seat: 1, x: 26, y: 28, online: true, avatarColor: '#2E7D32' },
 ];
 
 const MOCK_LEADERBOARD = [
-  { id: 'lb1', name: 'Alex Thompson', coins: 15200, rank: 1, year: 'Senior' },
-  { id: 'lb2', name: 'Priya Sharma', coins: 12800, rank: 2, year: 'Junior' },
-  { id: 'lb3', name: 'Marcus Chen', coins: 11500, rank: 3, year: 'Senior' },
-  { id: 'lb4', name: 'Jordan Lee', coins: 9800, rank: 4, year: 'Sophomore' },
-  { id: 'lb5', name: 'Sofia Rodriguez', coins: 9200, rank: 5, year: 'Junior' },
-  { id: 'usr_001', name: 'Aarnav Naga', coins: 8200, rank: 6, year: 'Sophomore' },
-  { id: 'lb7', name: 'Tyler Brooks', coins: 7600, rank: 7, year: 'Freshman' },
-  { id: 'lb8', name: 'Emma Wilson', coins: 6900, rank: 8, year: 'Sophomore' },
-  { id: 'lb9', name: 'Kai Nakamura', coins: 5400, rank: 9, year: 'Junior' },
-  { id: 'lb10', name: 'Olivia Davis', coins: 4800, rank: 10, year: 'Freshman' },
+  { id: 'lb1', name: 'Andrew Luck', coins: 15200, rank: 1, year: 'Senior' },
+  { id: 'lb2', name: 'Mahi Jariwala', coins: 12800, rank: 2, year: 'Junior' },
+  { id: 'lb3', name: 'Jordan Huang', coins: 11500, rank: 3, year: 'Senior' },
+  { id: 'lb4', name: 'Karis Chen', coins: 9800, rank: 4, year: 'Sophomore' },
+  { id: 'lb5', name: 'Sonia Dholakia', coins: 9200, rank: 5, year: 'Junior' },
+  { id: 'usr_001', name: 'Aarnav Nagabhirava', coins: 8200, rank: 6, year: 'Sophomore' },
+  { id: 'lb7', name: 'Caroline Driscoll', coins: 7600, rank: 7, year: 'Freshman' },
+  { id: 'lb8', name: 'Zayd Patel', coins: 6900, rank: 8, year: 'Sophomore' },
+  { id: 'lb9', name: 'Aakrisht Mehra', coins: 5400, rank: 9, year: 'Junior' },
+  { id: 'lb10', name: 'Sam Fisher', coins: 4800, rank: 10, year: 'Freshman' },
 ];
 
 const MOCK_REWARDS = [
@@ -59,21 +63,21 @@ const MOCK_POLLS = [
 
 const MOCK_MESSAGES = {
   global: [
-    { id: 'm1', user: 'Jordan Lee', text: 'Lets go Cardinal!! 🌲🔴', time: '2:34 PM', isOwn: false },
-    { id: 'm2', user: 'Priya Sharma', text: 'That last play was insane', time: '2:35 PM', isOwn: false },
+    { id: 'm1', user: 'Karis Chen', text: 'Lets go Cardinal!! 🌲🔴', time: '2:34 PM', isOwn: false },
+    { id: 'm2', user: 'Mahi Jariwala', text: 'That last play was insane', time: '2:35 PM', isOwn: false },
     { id: 'm3', user: 'You', text: 'Stanford by 20 today 💪', time: '2:36 PM', isOwn: true },
-    { id: 'm4', user: 'Tyler Brooks', text: 'Defense is locked in right now', time: '2:37 PM', isOwn: false },
-    { id: 'm5', user: 'Emma Wilson', text: 'Anyone know if there are nachos left at stand 3?', time: '2:38 PM', isOwn: false },
-    { id: 'm6', user: 'Marcus Chen', text: 'Just checked in, 5x coins lets gooo', time: '2:39 PM', isOwn: false },
+    { id: 'm4', user: 'Caroline Driscoll', text: 'Defense is locked in right now', time: '2:37 PM', isOwn: false },
+    { id: 'm5', user: 'Sonia Dholakia', text: 'Anyone know if there are nachos left at stand 3?', time: '2:38 PM', isOwn: false },
+    { id: 'm6', user: 'Jordan Huang', text: 'Just checked in, 5x coins lets gooo', time: '2:39 PM', isOwn: false },
   ],
   stadium: [
-    { id: 's1', user: 'Marcus Chen', text: 'The energy in here is CRAZY', time: '2:35 PM', isOwn: false },
+    { id: 's1', user: 'Jordan Huang', text: 'The energy in here is CRAZY', time: '2:35 PM', isOwn: false },
     { id: 's2', user: 'You', text: 'Loudest game this season for sure', time: '2:36 PM', isOwn: true },
-    { id: 's3', user: 'Tyler Brooks', text: 'Wave starting on the east side!', time: '2:37 PM', isOwn: false },
+    { id: 's3', user: 'Caroline Driscoll', text: 'Wave starting on the east side!', time: '2:37 PM', isOwn: false },
   ],
   section: [
-    { id: 'sec1', user: 'Jordan Lee', text: 'Our section is the loudest section no debate', time: '2:36 PM', isOwn: false },
-    { id: 'sec2', user: 'Tyler Brooks', text: 'Facts 104 is different 🔥', time: '2:37 PM', isOwn: false },
+    { id: 'sec1', user: 'Karis Chen', text: 'Our section is the loudest section no debate', time: '2:36 PM', isOwn: false },
+    { id: 'sec2', user: 'Caroline Driscoll', text: 'Facts 104 is different 🔥', time: '2:37 PM', isOwn: false },
     { id: 'sec3', user: 'You', text: 'We need to start a chant next timeout', time: '2:38 PM', isOwn: true },
   ],
 };
@@ -89,14 +93,14 @@ export function AppProvider({ children }) {
   const [activeBets, setActiveBets] = useState([]);
   const [friendChats, setFriendChats] = useState([
     {
-      id: 'gc1', name: 'Tailgate Crew 🎉', members: ['Jordan Lee', 'Marcus Chen', 'Tyler Brooks'], messages: [
-        { id: 'gc1m1', user: 'Jordan Lee', text: 'Pregame at 4?', time: '1:00 PM', isOwn: false },
+      id: 'gc1', name: 'Tailgate Crew 🎉', members: ['Karis Chen', 'Jordan Huang', 'Caroline Driscoll'], messages: [
+        { id: 'gc1m1', user: 'Karis Chen', text: 'Pregame at 4?', time: '1:00 PM', isOwn: false },
         { id: 'gc1m2', user: 'You', text: 'Im down, meet at the usual spot', time: '1:02 PM', isOwn: true },
       ]
     },
     {
-      id: 'gc2', name: 'Study Break Squad', members: ['Priya Sharma', 'Emma Wilson'], messages: [
-        { id: 'gc2m1', user: 'Priya Sharma', text: 'This game is so much better than studying lol', time: '2:30 PM', isOwn: false },
+      id: 'gc2', name: 'Study Break Squad', members: ['Mahi Jariwala', 'Sonia Dholakia'], messages: [
+        { id: 'gc2m1', user: 'Mahi Jariwala', text: 'This game is so much better than studying lol', time: '2:30 PM', isOwn: false },
       ]
     },
   ]);

@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Award, BarChart3, Check, Crown, Medal, ShoppingBag, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import CardinalCoin from '../components/CardinalCoin';
+import StanfordTreeChibi from '../components/StanfordTreeChibi';
 import { useApp } from '../context/AppContext';
 
 /* ─── Shared style tokens ───────────────────────── */
@@ -18,7 +19,7 @@ const CATEGORIES = [
 ];
 
 /* ─── RewardCard ────────────────────────────────── */
-function RewardCard({ reward, coins, onRedeem }) {
+function RewardCard({ reward, coins, onRedeem, onRedeemSuccess }) {
   const [redeemed, setRedeemed] = useState(false);
   const canAfford = coins >= reward.cost;
 
@@ -26,6 +27,7 @@ function RewardCard({ reward, coins, onRedeem }) {
     if (!canAfford || redeemed) return;
     onRedeem(reward.cost);
     setRedeemed(true);
+    onRedeemSuccess?.(reward);
   };
 
   return (
@@ -190,11 +192,58 @@ function LeaderboardView({ leaderboard, userId }) {
   );
 }
 
+/* ─── Redeem success popup (full-screen, tap to dismiss) ── */
+function RedeemPopup({ reward, onDismiss }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onDismiss}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 200,
+        background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(12px)',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        padding: 24, cursor: 'pointer',
+      }}
+    >
+      <motion.div
+        initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: 'linear-gradient(180deg,#1A0808 0%,#0D0303 100%)',
+          borderRadius: 24, padding: '28px 24px', textAlign: 'center',
+          border: '1px solid rgba(140,21,21,0.4)',
+          boxShadow: '0 0 48px rgba(140,21,21,0.3)',
+          maxWidth: 320,
+        }}
+      >
+        <motion.div
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ duration: 0.5, repeat: 1 }}
+          style={{ fontSize: 56, marginBottom: 12 }}
+        >
+          {reward?.emoji}
+        </motion.div>
+        <p style={{ fontSize: 13, color: '#4ADE80', fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>
+          REDEEMED!
+        </p>
+        <p style={{ fontSize: 20, fontWeight: 800, color: '#fff', marginBottom: 4 }}>{reward?.name}</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 20 }}>
+          Tap anywhere to close
+        </p>
+        <StanfordTreeChibi size={40} />
+      </motion.div>
+    </motion.div>
+  );
+}
+
 /* ─── RewardsScreen ─────────────────────────────── */
 export default function RewardsScreen({ onBack }) {
   const { user, rewards, leaderboard, spendCoins } = useApp();
   const [tab,      setTab]      = useState('store');
   const [category, setCategory] = useState('all');
+  const [redeemedPopup, setRedeemedPopup] = useState(null);
 
   const filtered = category === 'all' ? rewards : rewards.filter(r => r.category === category);
 
@@ -256,7 +305,15 @@ export default function RewardsScreen({ onBack }) {
                   </button>
                 ))}
               </div>
-              {filtered.map(r => <RewardCard key={r.id} reward={r} coins={user.coins} onRedeem={spendCoins} />)}
+              {filtered.map(r => (
+                <RewardCard
+                  key={r.id}
+                  reward={r}
+                  coins={user.coins}
+                  onRedeem={spendCoins}
+                  onRedeemSuccess={setRedeemedPopup}
+                />
+              ))}
             </motion.div>
           ) : (
             <motion.div key="leaderboard"
@@ -267,6 +324,12 @@ export default function RewardsScreen({ onBack }) {
         </AnimatePresence>
 
       </div>
+
+      <AnimatePresence>
+        {redeemedPopup && (
+          <RedeemPopup reward={redeemedPopup} onDismiss={() => setRedeemedPopup(null)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

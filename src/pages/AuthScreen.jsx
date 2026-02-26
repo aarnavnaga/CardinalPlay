@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import StanfordTreeChibi from '../components/StanfordTreeChibi';
 
 const S = {
   root: {
@@ -118,23 +119,34 @@ export default function AuthScreen() {
 
   return (
     <div style={S.root}>
-      {/* Glow bg */}
+      {/* Background glows */}
       <div style={{
         position:'absolute', top:-100, left:'50%', transform:'translateX(-50%)',
         width:400, height:400, borderRadius:'50%', pointerEvents:'none',
-        background:'radial-gradient(circle, rgba(140,21,21,0.25) 0%, transparent 70%)',
+        background:'radial-gradient(circle, rgba(140,21,21,0.28) 0%, transparent 70%)',
+      }} />
+      <div style={{
+        position:'absolute', bottom:-80, left:'20%', width:200, height:200, borderRadius:'50%', pointerEvents:'none',
+        background:'radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%)',
+      }} />
+      <div style={{
+        position:'absolute', bottom:-60, right:'10%', width:160, height:160, borderRadius:'50%', pointerEvents:'none',
+        background:'radial-gradient(circle, rgba(140,21,21,0.15) 0%, transparent 70%)',
       }} />
 
       <div style={S.inner}>
         {/* Logo */}
         <motion.div style={S.logoWrap}
           initial={{ opacity:0, y:-20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.5 }}>
-          <div style={S.logoBox}><span style={S.logoText}>CP</span></div>
+          <motion.div style={S.logoBox}
+            animate={{ scale: [1, 1.03, 1] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}>
+            <span style={S.logoText}>CP</span>
+          </motion.div>
           <div style={S.brandRow}>
             <span style={S.brandBlack}>Cardinal</span>
             <span style={S.brandRed}>Play</span>
           </div>
-          <p style={S.subtitle}>Stanford Gameday, Redefined</p>
+          <p style={{ ...S.subtitle, color: 'rgba(255,255,255,0.5)' }}>Stanford Gameday, Redefined ✨</p>
         </motion.div>
 
         {/* Tabs */}
@@ -211,6 +223,59 @@ export default function AuthScreen() {
 
         <p style={S.tos}>By continuing, you agree to Cardinal Play&apos;s Terms of Service</p>
       </div>
+
+      {/* Dancing Tree mascots at bottom — main + two sidekicks */}
+      {[
+        { pos: '50%', size: 64, delay: 0.6, yAmp: 10, rotAmp: 6, duration: 1.7, label: true },
+        { pos: '18%', size: 40, delay: 0.9, yAmp: 6, rotAmp: 8, duration: 2.1, label: false },
+        { pos: '82%', size: 40, delay: 1.1, yAmp: 6, rotAmp: 8, duration: 1.9, label: false },
+      ].map(({ pos, size, delay, yAmp, rotAmp, duration, label }, i) => (
+        <motion.div
+          key={i}
+          style={{
+            position: 'absolute',
+            bottom: 28,
+            left: pos,
+            transform: 'translateX(-50%)',
+            zIndex: 5,
+            pointerEvents: 'none',
+          }}
+          initial={{ y: 24, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay, duration: 0.4 }}
+        >
+          <motion.div
+            animate={{
+              y: [0, -yAmp, 0],
+              rotate: [-rotAmp, rotAmp, -rotAmp],
+              scale: [1, 1.08, 1],
+            }}
+            transition={{
+              duration: duration,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            style={{ display: 'inline-block' }}
+          >
+            <StanfordTreeChibi size={size} />
+          </motion.div>
+          {label && (
+            <motion.p
+              style={{
+                fontSize: 11,
+                color: 'rgba(255,255,255,0.45)',
+                textAlign: 'center',
+                marginTop: 6,
+                fontWeight: 700,
+              }}
+              animate={{ opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              Go Card! 🌲
+            </motion.p>
+          )}
+        </motion.div>
+      ))}
     </div>
   );
 }
